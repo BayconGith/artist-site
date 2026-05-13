@@ -34,7 +34,7 @@ async function loadData() {
   } catch {
     // First run — return defaults
     return {
-      artist: { name: 'BAYCON, tagline: 'Independent Artist', instagram: 'https://www.instagram.com/bayconist/' },
+      artist: { name: 'BAYCON', tagline: 'Independent Artist', instagram: 'https://www.instagram.com/bayconist/' },
       tracks: []
     };
   }
