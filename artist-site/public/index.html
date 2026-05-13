@@ -17,126 +17,181 @@
   }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
 
+  /* ── HEADER ── */
   .site-header {
-    padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border);
-    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 1.2rem 1.2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; background: var(--bg); z-index: 100;
+    gap: 0.5rem;
   }
-  .artist-name { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); cursor: default; user-select: none; }
-  .artist-tagline { font-size: 0.78rem; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; font-family: var(--mono); }
-  .header-right { display: flex; align-items: center; gap: 0.75rem; }
+  .artist-info { min-width: 0; flex: 1; }
+  .artist-name { font-family: var(--mono); font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); cursor: default; user-select: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .artist-tagline { font-size: 0.65rem; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
 
-  .ig-link { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); color: var(--text2); text-decoration: none; transition: border-color 0.15s, color 0.15s, background 0.15s; }
+  .ig-link { display: none; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); color: var(--text2); text-decoration: none; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
   .ig-link.visible { display: flex; }
-  .ig-link:hover { border-color: #e1306c; color: #e1306c; background: #1a000d; }
-  .ig-link svg { width: 16px; height: 16px; fill: currentColor; }
+  .ig-link:hover { border-color: #e1306c; color: #e1306c; }
+  .ig-link svg { width: 14px; height: 14px; fill: currentColor; }
 
-  /* Admin-only — hidden from guests */
-  .admin-only { display: none; }
-  body.admin .admin-only { display: flex; }
-  .edit-artist-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text3); padding: 0.4rem 0.8rem; font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; transition: all 0.15s; }
+  .edit-artist-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text3); padding: 0.35rem 0.6rem; font-family: var(--mono); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border-radius: 2px; white-space: nowrap; }
   body.admin .edit-artist-btn { display: inline-block; }
   .edit-artist-btn:hover { border-color: var(--text2); color: var(--text); }
-  .upload-btn { display: none; background: var(--accent); color: #0a0a0a; border: none; padding: 0.6rem 1.2rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: opacity 0.15s; text-transform: uppercase; }
+
+  .upload-btn { display: none; background: var(--accent); color: #0a0a0a; border: none; padding: 0.35rem 0.7rem; font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; border-radius: 2px; text-transform: uppercase; white-space: nowrap; }
   body.admin .upload-btn { display: inline-block; }
   .upload-btn:hover { opacity: 0.85; }
-  .admin-badge { display: none; font-family: var(--mono); font-size: 0.6rem; background: #1a1a00; color: var(--accent); border: 1px solid var(--accent); padding: 0.2rem 0.5rem; border-radius: 2px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+
+  .admin-badge { display: none; font-family: var(--mono); font-size: 0.55rem; background: #1a1a00; color: var(--accent); border: 1px solid var(--accent); padding: 0.2rem 0.4rem; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
   body.admin .admin-badge { display: inline-block; }
 
-  /* HERO */
-  .now-playing-hero { display: grid; grid-template-columns: 280px 1fr; border-bottom: 1px solid var(--border); min-height: 280px; }
-  .hero-cover { width: 280px; height: 280px; object-fit: cover; display: none; background: var(--bg3); }
+  /* ── HERO ── */
+  .now-playing-hero {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-cover-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    max-height: 300px;
+    overflow: hidden;
+    background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .hero-cover { width: 100%; height: 100%; object-fit: cover; display: none; }
   .hero-cover.visible { display: block; }
-  .hero-cover-placeholder { width: 280px; height: 280px; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--text3); }
-  .hero-info { padding: 2rem 2.5rem; display: flex; flex-direction: column; justify-content: space-between; background: var(--bg2); }
-  .playing-label { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; display: none; }
+  .hero-cover-placeholder { font-size: 5rem; color: var(--text3); }
+
+  .hero-info { padding: 1.2rem; background: var(--bg2); }
+  .playing-label { font-family: var(--mono); font-size: 0.6rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.4rem; display: none; }
   .playing-label.visible { display: block; }
-  .hero-track-title { font-family: var(--mono); font-size: 1.1rem; font-weight: 400; line-height: 1.1; letter-spacing: -0.03em; color: var(--text3); margin-bottom: 0.3rem; }
-  .hero-track-title.loaded { color: var(--text); font-size: 1.8rem; font-weight: 700; }
-  .hero-track-artist { font-size: 0.9rem; color: var(--text2); margin-bottom: 1.5rem; }
+  .hero-track-title { font-family: var(--mono); font-size: 0.95rem; font-weight: 400; color: var(--text3); margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero-track-title.loaded { color: var(--text); font-size: 1.3rem; font-weight: 700; white-space: normal; }
+  .hero-track-artist { font-size: 0.8rem; color: var(--text2); margin-bottom: 1rem; }
 
   .progress-wrap { margin-bottom: 1rem; }
-  .waveform-container { height: 48px; background: var(--bg3); border-radius: 2px; overflow: hidden; cursor: pointer; margin-bottom: 0.5rem; }
-  .waveform-bars { display: flex; align-items: center; height: 100%; gap: 2px; padding: 4px 6px; }
-  .wbar { flex: 1; background: var(--bg4); border-radius: 1px; min-width: 3px; }
+  .waveform-container { height: 40px; background: var(--bg3); border-radius: 2px; overflow: hidden; cursor: pointer; margin-bottom: 0.4rem; }
+  .waveform-bars { display: flex; align-items: center; height: 100%; gap: 2px; padding: 4px 4px; }
+  .wbar { flex: 1; background: var(--bg4); border-radius: 1px; min-width: 2px; }
   .wbar.played { background: var(--accent); }
-  .time-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.7rem; color: var(--text3); }
+  .time-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.65rem; color: var(--text3); }
 
-  .controls { display: flex; align-items: center; gap: 1rem; }
-  .ctrl-btn { background: none; border: none; cursor: pointer; padding: 0.4rem; color: var(--text2); transition: color 0.15s; font-size: 1.1rem; display: flex; align-items: center; }
+  .controls { display: flex; align-items: center; gap: 0.75rem; }
+  .ctrl-btn { background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--text2); transition: color 0.15s; font-size: 1rem; display: flex; align-items: center; }
   .ctrl-btn:hover { color: var(--text); }
-  .play-btn { width: 52px; height: 52px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, opacity 0.15s; color: #0a0a0a; font-size: 1.3rem; }
-  .play-btn:hover { opacity: 0.85; transform: scale(1.03); }
-  .play-btn:active { transform: scale(0.97); }
-  .vol-wrap { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; color: var(--text2); }
-  .vol-slider { -webkit-appearance: none; width: 80px; height: 3px; background: var(--bg4); border-radius: 2px; outline: none; cursor: pointer; }
-  .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  .play-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, opacity 0.15s; color: #0a0a0a; font-size: 1.2rem; flex-shrink: 0; }
+  .play-btn:hover { opacity: 0.85; }
+  .play-btn:active { transform: scale(0.95); }
+  .vol-wrap { display: flex; align-items: center; gap: 0.4rem; margin-left: auto; color: var(--text2); }
+  .vol-slider { -webkit-appearance: none; width: 70px; height: 3px; background: var(--bg4); border-radius: 2px; outline: none; cursor: pointer; }
+  .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; }
 
-  /* TRACKS */
-  .tracks-section { padding: 0 2.5rem 4rem; }
-  .section-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); letter-spacing: 0.2em; text-transform: uppercase; padding: 1.5rem 0 0.75rem; border-bottom: 1px solid var(--border); }
-  .track-row { display: grid; grid-template-columns: 40px 56px 1fr auto auto; align-items: center; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; border-radius: 2px; }
-  .track-row:hover { background: var(--bg2); padding-left: 0.5rem; }
-  .track-row.active { background: #1a1a00; padding-left: 0.5rem; }
-  .track-num { font-family: var(--mono); font-size: 0.75rem; color: var(--text3); text-align: center; }
+  /* ── TRACKS ── */
+  .tracks-section { padding: 0 1rem 5rem; }
+  .section-label { font-family: var(--mono); font-size: 0.6rem; color: var(--text3); letter-spacing: 0.2em; text-transform: uppercase; padding: 1rem 0 0.6rem; border-bottom: 1px solid var(--border); }
+
+  .track-row { display: grid; grid-template-columns: 28px 48px 1fr auto; align-items: center; gap: 0.7rem; padding: 0.7rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; border-radius: 2px; }
+  .track-row:hover, .track-row:active { background: var(--bg2); }
+  .track-row.active { background: #1a1a00; }
+
+  .track-num { font-family: var(--mono); font-size: 0.7rem; color: var(--text3); text-align: center; }
   .track-row.active .track-num { display: none; }
-  .track-mini-play { display: none; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; color: #0a0a0a; font-size: 0.9rem; }
+  .track-mini-play { display: none; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; color: #0a0a0a; font-size: 0.8rem; }
   .track-row.active .track-mini-play { display: flex; }
-  .track-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 2px; background: var(--bg3); display: block; }
-  .track-thumb-ph { width: 56px; height: 56px; background: var(--bg3); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text3); }
+
+  .track-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 2px; background: var(--bg3); display: block; flex-shrink: 0; }
+  .track-thumb-ph { width: 48px; height: 48px; background: var(--bg3); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--text3); flex-shrink: 0; }
+
   .track-meta { min-width: 0; }
-  .track-title { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+  .track-title { font-weight: 500; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
   .track-row.active .track-title { color: var(--accent); }
-  .track-sub { font-size: 0.75rem; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
-  .track-duration { font-family: var(--mono); font-size: 0.75rem; color: var(--text3); white-space: nowrap; }
-  .track-delete { display: none; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 0.85rem; padding: 0.3rem 0.5rem; border-radius: 2px; transition: color 0.15s, background 0.15s; opacity: 0; }
+  .track-sub { font-size: 0.65rem; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
+
+  .track-delete { display: none; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 0.85rem; padding: 0.5rem; border-radius: 2px; transition: color 0.15s; }
   body.admin .track-delete { display: block; }
-  body.admin .track-row:hover .track-delete { opacity: 1; }
-  .track-delete:hover { color: #ff5555; background: #1a0000; }
+  .track-delete:hover { color: #ff5555; }
 
-  .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text3); }
-  .empty-state .big-icon { font-size: 3rem; margin-bottom: 1rem; }
-  .empty-state p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text3); }
+  .empty-state .big-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .empty-state p { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-  /* MODALS */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  /* ── MODALS ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal { background: var(--bg2); border: 1px solid var(--border); width: 460px; max-width: 95vw; padding: 2rem; border-radius: 4px; }
-  .modal-title { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1.5rem; }
-  .form-group { margin-bottom: 1.2rem; }
-  .form-label { display: block; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.4rem; }
-  .form-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 0.65rem 0.8rem; font-family: var(--sans); font-size: 0.875rem; border-radius: 2px; outline: none; transition: border-color 0.15s; }
+  .modal {
+    background: var(--bg2); border: 1px solid var(--border);
+    width: 100%; max-width: 520px;
+    padding: 1.5rem 1.2rem 2rem;
+    border-radius: 12px 12px 0 0;
+    max-height: 92vh; overflow-y: auto;
+  }
+  .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1.2rem; }
+  .modal-title { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1.2rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-label { display: block; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.35rem; }
+  .form-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 0.75rem 0.8rem; font-family: var(--sans); font-size: 1rem; border-radius: 4px; outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
   .form-input:focus { border-color: var(--accent); }
-  .file-drop { border: 1px dashed var(--border); border-radius: 2px; padding: 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; color: var(--text2); font-size: 0.85rem; position: relative; }
-  .file-drop:hover { border-color: var(--accent); background: #111100; }
+
+  .file-drop { border: 1px dashed var(--border); border-radius: 4px; padding: 1.2rem; text-align: center; cursor: pointer; transition: border-color 0.15s; color: var(--text2); font-size: 0.85rem; position: relative; }
+  .file-drop:hover { border-color: var(--accent); }
   .file-drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .file-drop .drop-icon { font-size: 1.8rem; margin-bottom: 0.4rem; color: var(--text3); }
-  .file-drop .drop-hint { font-family: var(--mono); font-size: 0.7rem; color: var(--text3); margin-top: 0.3rem; }
-  .file-chosen { color: var(--accent); font-family: var(--mono); font-size: 0.78rem; }
-  .cover-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 2px; display: none; margin-top: 0.5rem; }
-  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
-  .btn-cancel { background: none; border: 1px solid var(--border); color: var(--text2); padding: 0.6rem 1.2rem; font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: all 0.15s; }
+  .file-drop .drop-icon { font-size: 1.5rem; margin-bottom: 0.3rem; color: var(--text3); }
+  .file-drop .drop-hint { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); margin-top: 0.3rem; }
+  .file-chosen { color: var(--accent); font-family: var(--mono); font-size: 0.75rem; }
+  .cover-preview { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; display: none; margin-top: 0.5rem; }
+
+  .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+  .btn-cancel { flex: 1; background: none; border: 1px solid var(--border); color: var(--text2); padding: 0.8rem; font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 4px; }
   .btn-cancel:hover { border-color: var(--text2); color: var(--text); }
-  .btn-primary { background: var(--accent); border: none; color: #0a0a0a; padding: 0.6rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: opacity 0.15s; }
+  .btn-primary { flex: 2; background: var(--accent); border: none; color: #0a0a0a; padding: 0.8rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 4px; }
   .btn-primary:hover { opacity: 0.85; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .upload-progress { display: none; margin-top: 1rem; }
+  .upload-progress { display: none; margin-top: 0.8rem; }
   .upload-progress.visible { display: block; }
   .progress-bar-wrap { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
   .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width 0.3s; }
-  .progress-text { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); margin-top: 0.4rem; text-align: center; }
+  .progress-text { font-family: var(--mono); font-size: 0.6rem; color: var(--text3); margin-top: 0.4rem; text-align: center; }
 
-  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(4rem); background: var(--bg2); border: 1px solid var(--border); color: var(--text); padding: 0.75rem 1.5rem; font-family: var(--mono); font-size: 0.75rem; border-radius: 2px; z-index: 300; transition: transform 0.25s; }
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(5rem); background: var(--bg2); border: 1px solid var(--border); color: var(--text); padding: 0.7rem 1.2rem; font-family: var(--mono); font-size: 0.72rem; border-radius: 4px; z-index: 300; transition: transform 0.25s; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { border-color: #ff5555; color: #ff5555; }
-  .login-hint { font-family: var(--mono); font-size: 0.62rem; color: var(--text3); text-align: center; margin-top: 1rem; }
+  .login-hint { font-family: var(--mono); font-size: 0.6rem; color: var(--text3); text-align: center; margin-top: 0.8rem; }
+
+  /* ── DESKTOP overrides ── */
+  @media (min-width: 640px) {
+    .site-header { padding: 1.8rem 2.5rem 1.4rem; }
+    .artist-name { font-size: 1.4rem; }
+    .artist-tagline { font-size: 0.78rem; }
+    .upload-btn { font-size: 0.75rem; padding: 0.6rem 1.2rem; }
+    .edit-artist-btn { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+
+    .now-playing-hero { flex-direction: row; min-height: 280px; }
+    .hero-cover-wrap { width: 280px; min-width: 280px; height: 280px; aspect-ratio: unset; max-height: unset; }
+    .hero-info { padding: 2rem 2.5rem; flex: 1; }
+    .hero-track-title { font-size: 1.1rem; }
+    .hero-track-title.loaded { font-size: 1.8rem; }
+
+    .tracks-section { padding: 0 2.5rem 4rem; }
+    .track-row { grid-template-columns: 40px 56px 1fr auto auto; gap: 1rem; padding: 0.9rem 0; }
+    .track-thumb, .track-thumb-ph { width: 56px; height: 56px; }
+    .track-mini-play { width: 32px; height: 32px; }
+    .track-title { font-size: 0.9rem; }
+
+    .modal-overlay { align-items: center; }
+    .modal { border-radius: 4px; width: 460px; padding: 2rem; }
+    .modal-handle { display: none; }
+  }
 </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div>
+  <div class="artist-info">
     <div class="artist-name" id="artistName">—</div>
     <div class="artist-tagline" id="artistTagline">—</div>
   </div>
@@ -144,15 +199,17 @@
     <a class="ig-link" id="igLink" href="#" target="_blank" rel="noopener" title="Instagram">
       <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     </a>
-    <span class="admin-badge" onclick="logout()" title="Click to logout">ADMIN ✕</span>
-    <button class="edit-artist-btn" onclick="openEditArtist()">Edit Profile</button>
-    <button class="upload-btn" onclick="openUpload()">+ Upload Track</button>
+    <span class="admin-badge" onclick="logout()" title="Tap to logout">ADMIN ✕</span>
+    <button class="edit-artist-btn" onclick="openEditArtist()">Edit</button>
+    <button class="upload-btn" onclick="openUpload()">+ Upload</button>
   </div>
 </header>
 
 <div class="now-playing-hero">
-  <div class="hero-cover-placeholder" id="heroCoverPh">♪</div>
-  <img class="hero-cover" id="heroCoverImg" alt="Cover">
+  <div class="hero-cover-wrap">
+    <div class="hero-cover-placeholder" id="heroCoverPh">♪</div>
+    <img class="hero-cover" id="heroCoverImg" alt="Cover">
+  </div>
   <div class="hero-info">
     <div>
       <div class="playing-label" id="playingLabel">▶ Now Playing</div>
@@ -174,7 +231,7 @@
         <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
         <button class="ctrl-btn" onclick="nextTrack()">⏭</button>
         <div class="vol-wrap">
-          <span>🔈</span>
+          <span style="font-size:0.85rem">🔈</span>
           <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.8" oninput="audioEl.volume=this.value">
         </div>
       </div>
@@ -193,7 +250,8 @@
 
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
-  <div class="modal" style="width:340px">
+  <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">Admin Login</div>
     <div class="form-group">
       <label class="form-label">Password</label>
@@ -203,13 +261,14 @@
       <button class="btn-cancel" onclick="closeLogin()">Cancel</button>
       <button class="btn-primary" onclick="submitLogin()">Login</button>
     </div>
-    <div class="login-hint">Tip: double-click the artist name to open this</div>
+    <div class="login-hint">Double-click artist name to open this</div>
   </div>
 </div>
 
 <!-- UPLOAD MODAL -->
 <div class="modal-overlay" id="uploadModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">Upload Track</div>
     <div class="form-group">
       <label class="form-label">Track Title *</label>
@@ -220,7 +279,7 @@
       <div class="file-drop">
         <input type="file" accept=".mp3,.wav" onchange="handleAudioFile(this)" id="audioInput">
         <div class="drop-icon">🎵</div>
-        <div id="audioChosen">Drop file here or click to browse</div>
+        <div id="audioChosen">Tap to browse</div>
         <div class="drop-hint">MP3 · WAV · max 100MB</div>
       </div>
     </div>
@@ -229,7 +288,7 @@
       <div class="file-drop">
         <input type="file" accept="image/*" onchange="handleCoverFile(this)" id="coverInput">
         <div class="drop-icon">🖼</div>
-        <div id="coverChosen">Drop image here or click to browse</div>
+        <div id="coverChosen">Tap to browse</div>
         <div class="drop-hint">JPG · PNG · WEBP</div>
       </div>
       <img id="coverPreview" class="cover-preview" alt="preview">
@@ -248,6 +307,7 @@
 <!-- EDIT ARTIST MODAL -->
 <div class="modal-overlay" id="editArtistModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">Edit Profile</div>
     <div class="form-group">
       <label class="form-label">Artist / Stage Name</label>
@@ -272,16 +332,14 @@
 <audio id="audioEl"></audio>
 
 <script>
-// ── SET YOUR ADMIN PASSWORD HERE ──────────────────────
 const ADMIN_PASSWORD = 'admin123';
-// ─────────────────────────────────────────────────────
 
 const audioEl = document.getElementById('audioEl');
 audioEl.volume = 0.8;
 
 let tracks = [], currentIdx = -1, isPlaying = false;
 let pendingAudioFile = null, pendingCoverFile = null;
-const BAR_COUNT = 60;
+const BAR_COUNT = 50;
 
 // ── ADMIN AUTH ────────────────────────────────────────
 let isAdmin = sessionStorage.getItem('artistAdmin') === '1';
@@ -289,6 +347,16 @@ if (isAdmin) document.body.classList.add('admin');
 
 document.getElementById('artistName').addEventListener('dblclick', () => {
   if (!isAdmin) openLogin();
+});
+// Mobile: triple-tap artist name to open login
+let tapCount = 0, tapTimer;
+document.getElementById('artistName').addEventListener('click', () => {
+  tapCount++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => {
+    if (tapCount >= 3 && !isAdmin) openLogin();
+    tapCount = 0;
+  }, 500);
 });
 
 function openLogin() {
@@ -413,6 +481,8 @@ function loadTrack(idx) {
   if (t.coverUrl) { img.src = t.coverUrl; img.classList.add('visible'); ph.style.display = 'none'; }
   else { img.classList.remove('visible'); ph.style.display = 'flex'; }
   renderTracks();
+  // Scroll hero into view on mobile
+  document.querySelector('.now-playing-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function prevTrack() { if (tracks.length) loadTrack((currentIdx - 1 + tracks.length) % tracks.length); }
 function nextTrack() { if (tracks.length) loadTrack((currentIdx + 1) % tracks.length); }
@@ -434,7 +504,6 @@ function renderTracks() {
         <div class="track-title">${escHtml(t.title)}</div>
         <div class="track-sub">${t.fileType || 'AUDIO'}</div>
       </div>
-      <span class="track-duration">—</span>
       <button class="track-delete" onclick="deleteTrack('${t.id}',${i},event)" title="Remove">✕</button>
     </div>
   `).join('');
@@ -463,8 +532,8 @@ async function deleteTrack(id, idx, e) {
 function openUpload() {
   pendingAudioFile = null; pendingCoverFile = null;
   document.getElementById('inputTitle').value = '';
-  document.getElementById('audioChosen').textContent = 'Drop file here or click to browse';
-  document.getElementById('coverChosen').textContent = 'Drop image here or click to browse';
+  document.getElementById('audioChosen').textContent = 'Tap to browse';
+  document.getElementById('coverChosen').textContent = 'Tap to browse';
   document.getElementById('coverPreview').style.display = 'none';
   document.getElementById('audioInput').value = '';
   document.getElementById('coverInput').value = '';
